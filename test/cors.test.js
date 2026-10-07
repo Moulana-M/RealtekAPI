@@ -11,7 +11,7 @@ test('CORS preflight allows the deployed frontend and excludes untrusted origins
   const server = app.listen(0, '127.0.0.1')
   await once(server, 'listening')
   try {
-    for (const origin of ['https://realtek-five.vercel.app', 'http://localhost:3000', 'http://127.0.0.1:3000', 'https://untrusted.example', 'https://realtekapi-4.onrender.com']) {
+    for (const origin of ['https://realtek-five.vercel.app', 'https://realtek-athdyjazr-moulana.vercel.app', 'http://localhost:3000', 'http://127.0.0.1:3000', 'https://untrusted.example', 'https://realtekapi-4.onrender.com']) {
       const response = await fetch(`http://127.0.0.1:${server.address().port}/api/auth/login`, {
         method: 'OPTIONS',
         headers: { Origin: origin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' },
@@ -32,10 +32,11 @@ test('CORS preflight allows the deployed frontend and excludes untrusted origins
 test('write requests accept the trusted frontend but reject other cross-origin sites', () => {
   const request = (origin) => ({ get: (header) => header === 'origin' ? origin : 'realtekapi-4.onrender.com' })
   let allowed = false
-  requireSameOrigin(request('https://realtek-five.vercel.app'), {}, () => { allowed = true })
+  requireSameOrigin(request('https://realtek-athdyjazr-moulana.vercel.app'), {}, () => { allowed = true })
   assert.equal(allowed, true)
   assert.throws(() => requireSameOrigin(request('https://untrusted.example'), {}, () => {}), { status: 403 })
   assert.throws(() => requireSameOrigin(request('https://realtek-five.vercel.app.untrusted.example'), {}, () => {}), { status: 403 })
+  assert.throws(() => requireSameOrigin(request('https://realtek-athdyjazr-moulana.vercel.app.untrusted.example'), {}, () => {}), { status: 403 })
   assert.throws(() => requireSameOrigin(request('invalid'), {}, () => {}), { status: 403 })
 })
 
@@ -50,7 +51,7 @@ test('the deployed frontend can log in, restore a session and log out', async ()
   const server = app.listen(0, '127.0.0.1')
   await once(server, 'listening')
   const apiUrl = `http://127.0.0.1:${server.address().port}/api/auth`
-  const origin = 'https://realtek-five.vercel.app'
+  const origin = 'https://realtek-athdyjazr-moulana.vercel.app'
   try {
     const login = await fetch(`${apiUrl}/login`, {
       method: 'POST',
