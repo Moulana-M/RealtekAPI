@@ -1,10 +1,11 @@
 import { getSessionUser } from '../services/authService.js'
 import { httpError } from '../utils/httpError.js'
+import { allowedOrigins } from '../config/cors.js'
 
 export const SESSION_COOKIE = 'realtech_session'
 export const cookieOptions = {
   httpOnly: true,
-  sameSite: 'strict',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
   secure: process.env.NODE_ENV === 'production',
   path: '/api',
 }
@@ -18,7 +19,7 @@ export function requireSameOrigin(req, _res, next) {
   if (origin) {
     let host
     try { host = new URL(origin).host } catch { throw httpError(403, 'Invalid request origin.') }
-    if (host !== req.get('host')) throw httpError(403, 'Cross-origin changes are not allowed.')
+    if (host !== req.get('host') && !allowedOrigins.includes(origin)) throw httpError(403, 'Cross-origin changes are not allowed.')
   }
   next()
 }

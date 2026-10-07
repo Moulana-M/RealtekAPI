@@ -8,7 +8,7 @@ test('server sessions resolve roles without exposing passwords and reflect role 
   const { token } = signIn(account.username, 'test-secret')
   assert.deepEqual(Object.keys(account).sort(), ['id', 'role', 'username'])
   assert.equal(getSessionUser(token).role, 'User')
-  assert.throws(() => requireAdmin({ user: getSessionUser(token), method: 'POST', baseUrl: '/api/upload-files' }, {}, () => {}), { status: 403, message: 'Only Admin users can upload files.' })
+  assert.throws(() => requireAdmin({ user: getSessionUser(token), method: 'POST', baseUrl: 'https://realtekapi-4.onrender.com/api/upload-files' }, {}, () => {}), { status: 403, message: 'Only Admin users can upload files.' })
   updateUser(account.id, { username: account.username, role: 'Admin', password: '' })
   assert.equal(getSessionUser(token).role, 'Admin')
   let allowed = false

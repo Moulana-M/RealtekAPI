@@ -44,8 +44,8 @@ const { default: app } = await import('../src/app.js')
 test('order file APIs preserve filenames, isolate downloads, validate input and report missing files', async () => {
   const server = app.listen(0, '127.0.0.1')
   await once(server, 'listening')
-  const baseUrl = `http://127.0.0.1:${server.address().port}/api/upload-files`
-  const apiUrl = `http://127.0.0.1:${server.address().port}/api`
+  const baseUrl = `https://realtekapi-4.onrender.com/api/upload-files`
+  const apiUrl = `https://realtekapi-4.onrender.com/api`
   const adminLogin = await globalThis.fetch(`${apiUrl}/auth/login`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: 'John', password: 'john@123' }),
   })
