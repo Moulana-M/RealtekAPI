@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch src/server.js",
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "lint": "oxlint src",
+    "migrate": "node --env-file-if-exists=.env src/database/migrate.js",
+    "test": "node --experimental-test-module-mocks --test test/*.test.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "express": "^5.1.0",
+    "multer": "^2.4.0"
+  },
+  "devDependencies": {
+    "oxlint": "^1.81.0"
+  }
+}
